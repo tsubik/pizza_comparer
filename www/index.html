@@ -21,9 +21,39 @@
                     <i class="icon ion-android-trash"></i>
                 </a>
             </div>
-            <button class="button button-block button-positive icon-left ion-android-add">
+            <button class="button button-block button-positive icon-left ion-android-add" ng-click="newPizza()">
               Add new pizza
             </button>
         </ion-content>
+
+        <script id="pizza-modal.html" type="text/ng-template">
+            <div class="modal">
+            <ion-header-bar>
+                <h1 class="title">{{}}</h1>
+                <button class="button button-clear button-positive" ng-click="closeNewPizza()">Close</button>
+            </ion-header-bar>
+            <ion-content>
+                <form ng-submit="createPizza(pizza)">
+                    <div class="list">
+                      <label class="item item-input">
+                        <span class="input-label">Name</span>
+                        <input type="text" ng-model="pizza.name">
+                      </label>
+                      <label class="item item-input">
+                        <span class="input-label">Size</span>
+                        <input type="text" ng-model="pizza.size">
+                      </label>
+                      <label class="item item-input">
+                        <span class="input-label">Price</span>
+                        <input type="text" ng-model="pizza.price">
+                      </label>
+                    </div>
+                    <button class="button button-block button-positive icon-left ion-android-add" type="submit">
+                      Add pizza
+                    </button>
+                </form>
+            </ion-content>
+        </div>    
+        </script
     </body>
 </html>
