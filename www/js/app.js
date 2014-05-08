@@ -1,6 +1,21 @@
+
 angular.module('pizza_comparer', ['ionic'])
 
-.controller('PizzaController', function($scope, $ionicModal){
+.factory('Pizza', function(){
+    return function(data){
+        this.name = data.name;
+        this.diameter = data.diameter;
+        this.price = data.price;
+
+        this.size = function(){
+            return Math.PI * Math.pow(this.diameter/2.0,2); 
+        };
+        this.pricePerSize = function(){
+            return Math.round(this.price / this.size() * 10000)/10000;
+        };
+    }
+})
+.controller('PizzaController', function($scope, $ionicModal, Pizza){
 
     $ionicModal.fromTemplateUrl('pizza-modal.html',{
         scope: $scope,
@@ -10,9 +25,9 @@ angular.module('pizza_comparer', ['ionic'])
     });
 
     $scope.pizzas = [
-        { name: 'mała pizza', size: 30, price: 16.50 },
-        { name: 'średnia pizza', size: 42, price: 18.99 },
-        { name: 'duża pizza', size: 50, price: 21.20 }  
+        new Pizza({ name: 'mała pizza', diameter: 30, price: 16.50 }),
+        new Pizza({ name: 'średnia pizza', diameter: 42, price: 18.99 }),
+        new Pizza({ name: 'duża pizza', diameter: 50, price: 21.20 })  
     ];
 
     $scope.newPizza = function(){
@@ -20,15 +35,16 @@ angular.module('pizza_comparer', ['ionic'])
     };
 
     $scope.createPizza = function(pizza){
-        $scope.pizzas.push({
-            name: pizza.name,
-            size: pizza.size,
-            price: pizza.price
-        });
+        $scope.pizzas.push(new Pizza(pizza));
         $scope.pizzaModal.hide();
         pizza.name = "";
-        pizza.size = "";
+        pizza.diameter = "";
         pizza.price = "";
+    };
+
+    $scope.removePizza = function(pizza){
+        var index = $scope.pizzas.indexOf(pizza);
+        $scope.pizzas.splice(index,1); 
     };
 
     $scope.closeNewPizza = function(){

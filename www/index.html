@@ -16,13 +16,20 @@
         </ion-header-bar>
         <ion-content>
             <div class="list">
-                <a class="item item-icon-right" href="#" ng-repeat="pizza in pizzas">
-                    <p>{{pizza.name}} ({{pizza.size}}cm {{pizza.price}}zł)</p>
-                    <i class="icon ion-android-trash"></i>
+                <a class="item item-icon-right item-button-right" href="#" ng-repeat="pizza in pizzas">
+                    {{pizza.name}} ({{pizza.diameter}}cm {{pizza.price}}zł)
+                    <div class="buttons">
+                        <button class="button button-light">
+                          {{pizza.pricePerSize()}} zł/cm2
+                        </button>
+                        <button class="button button-assertive" ng-click="removePizza(pizza)">
+                          <i class="icon ion-trash-b"></i>
+                        </button>
+                    </div>
                 </a>
             </div>
             <button class="button button-block button-positive icon-left ion-android-add" ng-click="newPizza()">
-              Add new pizza
+              Dodaj nową pizzę
             </button>
         </ion-content>
 
@@ -36,20 +43,20 @@
                 <form ng-submit="createPizza(pizza)">
                     <div class="list">
                       <label class="item item-input">
-                        <span class="input-label">Name</span>
+                        <span class="input-label">Nazwa</span>
                         <input type="text" ng-model="pizza.name">
                       </label>
                       <label class="item item-input">
-                        <span class="input-label">Size</span>
-                        <input type="text" ng-model="pizza.size">
+                        <span class="input-label">Średnica</span>
+                        <input type="text" ng-model="pizza.diameter">
                       </label>
                       <label class="item item-input">
-                        <span class="input-label">Price</span>
+                        <span class="input-label">Cena</span>
                         <input type="text" ng-model="pizza.price">
                       </label>
                     </div>
                     <button class="button button-block button-positive icon-left ion-android-add" type="submit">
-                      Add pizza
+                      Dodaj pizzę
                     </button>
                 </form>
             </ion-content>
