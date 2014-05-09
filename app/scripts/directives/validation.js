@@ -1,5 +1,5 @@
-angular.module('myApp', ['ionic'])
-.directive('onValidSubmit', ['$parse', '$timeout', function($parse, $timeout) {
+angular.module('pizza_comparer.directives', ['ionic'])
+  .directive('onValidSubmit', ['$parse', '$timeout', function($parse, $timeout) {
     return {
       require: '^form',
       restrict: 'A',

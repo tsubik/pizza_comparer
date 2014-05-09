@@ -3,6 +3,7 @@ var concat = require('gulp-concat');
 var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
+var order = require('gulp-order');
 
 var paths = {
   sass: ['./app/styles/**/*.scss'],
@@ -24,6 +25,12 @@ gulp.task('sass', function(done) {
 
 gulp.task('scripts', function(){
   gulp.src(paths.js)
+    .pipe(order([
+      'factories/*.js',
+      'directives/*.js',
+      'controllers/*.js',
+      'app.js'
+      ]))
     .pipe(concat('app.js'))
     .pipe(gulp.dest('./www/js/'));
 });
