@@ -5,7 +5,9 @@ var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 
 var paths = {
-  sass: ['./scss/**/*.scss']
+  sass: ['./app/styles/**/*.scss'],
+  js: ['./app/scripts/**/*.js'],
+  html: ['./app/**/*.html']
 };
 
 gulp.task('sass', function(done) {
@@ -20,8 +22,21 @@ gulp.task('sass', function(done) {
     .on('end', done);
 });
 
-gulp.task('watch', function() {
-  gulp.watch(paths.sass, ['sass']);
+gulp.task('scripts', function(){
+  gulp.src(paths.js)
+    .pipe(concat('app.js'))
+    .pipe(gulp.dest('./www/js/'));
 });
 
-gulp.task('default', ['sass']);
+gulp.task('html', function(){
+  gulp.src(paths.html)
+    .pipe(gulp.dest('./www/'));
+});
+
+gulp.task('watch', function() {
+  gulp.watch(paths.sass, ['sass']);
+  gulp.watch(paths.js, ['scripts']);
+  gulp.watch(paths.html, ['html']);
+});
+
+gulp.task('default', ['sass','scripts','html']);
