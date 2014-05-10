@@ -7,8 +7,10 @@
         <title>Pizza prices comparer</title>    
     </head>
     <body ng-app="pizza_comparer" ng-controller="PizzaListController">
-        <ion-header-bar class="bar-dark">
+        <ion-header-bar align-title="left" class="bar-dark">
+            <a class="button button-icon icon ion-pizza" href="#"></a>
             <h1 class="title">Pizze</h1>
+            <button class="button icon ion-settings" ng-click="openSettings()"></button>
         </ion-header-bar>
         <ion-content>
             <div class="list" ng-cloak>
