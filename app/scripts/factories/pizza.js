@@ -5,6 +5,7 @@ angular.module('pizza_comparer.factories.pizza', [])
         this.name = data.name;
         this.diameter = data.diameter;
         this.price = data.price;
+        this.id = UUIDjs.create().toString();
 
         this.size = function(){
             return Math.PI * Math.pow(this.diameter/2.0,2); 

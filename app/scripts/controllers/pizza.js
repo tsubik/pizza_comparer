@@ -1,11 +1,11 @@
 angular.module('pizza_comparer.controllers.pizza', [])
 
-.controller('PizzaController', function($scope, $ionicModal, Pizza){
+.controller('PizzaListController', function($scope, $ionicModal, Pizza){
     $ionicModal.fromTemplateUrl('pizza-modal.html',{
         scope: $scope,
         animation: 'slide-in-up'
     }).then(function(modal){
-        $scope.pizzaModal = modal;
+        $scope.pizzaModal = modal;   
     });
 
     $scope.pizzas = [
@@ -14,16 +14,14 @@ angular.module('pizza_comparer.controllers.pizza', [])
         new Pizza({ name: 'duża pizza', diameter: 50, price: 21.20 })  
     ];
 
-    $scope.newPizza = function(){
+    $scope.addNewPizza = function(){
+        $scope.pizza = {};
         $scope.pizzaModal.show();
     };
 
-    $scope.createPizza = function(pizza){
-        $scope.pizzas.push(new Pizza(pizza));
-        $scope.pizzaModal.hide();
-        pizza.name = "";
-        pizza.diameter = "";
-        pizza.price = "";
+    $scope.editPizza = function(pizza){
+        $scope.pizza = angular.copy(pizza);
+        $scope.pizzaModal.show();
     };
 
     $scope.removePizza = function(pizza){
@@ -31,7 +29,4 @@ angular.module('pizza_comparer.controllers.pizza', [])
         $scope.pizzas.splice(index,1); 
     };
 
-    $scope.closeNewPizza = function(){
-        $scope.pizzaModal.hide();
-    };
 });

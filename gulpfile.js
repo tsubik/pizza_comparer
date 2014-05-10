@@ -26,6 +26,7 @@ gulp.task('sass', function(done) {
 gulp.task('scripts', function(){
   gulp.src(paths.js)
     .pipe(order([
+      'utility/*.js',
       'factories/*.js',
       'directives/*.js',
       'controllers/*.js',
