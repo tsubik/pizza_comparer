@@ -11,7 +11,7 @@
             <h1 class="title">Pizze</h1>
         </ion-header-bar>
         <ion-content>
-            <div class="list">
+            <div class="list" ng-cloak>
                 <a class="item item-icon-right item-button-right" href="#" ng-click="editPizza(pizza)" ng-repeat="pizza in pizzas">
                     {{pizza.name}} ({{pizza.diameter}}cm {{pizza.price}}zł)
                     <div class="buttons">
@@ -32,7 +32,10 @@
         <script id="pizza-modal.html" type="text/ng-template">
             <div class="modal" ng-controller="PizzaDetailsController">
             <ion-header-bar>
-                <h1 class="title">{{}}</h1>
+                <h1 class="title">
+                    <p ng-if="!pizza.id">Dodawanie pizzy</p>
+                    <p ng-if="pizza.id">Modyfikacja pizzy</p>
+                </h1>
                 <button class="button button-clear button-positive" ng-click="closeModal()">Close</button>
             </ion-header-bar>
             <ion-content>
