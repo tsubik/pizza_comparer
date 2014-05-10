@@ -27,6 +27,7 @@ gulp.task('scripts', function(){
   gulp.src(paths.js)
     .pipe(order([
       'utility/*.js',
+      'vendor/*.js',
       'factories/*.js',
       'directives/*.js',
       'controllers/*.js',
