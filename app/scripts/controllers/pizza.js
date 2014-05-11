@@ -1,11 +1,20 @@
-angular.module('pizza_comparer.controllers.pizza', [])
+angular.module('pizza_comparer.controllers.pizza', ['pizza_comparer.factories.settings', 'pizza_comparer.factories.pizza'])
 
-.controller('PizzaListController', function($scope, $ionicModal, Pizza){
-    $ionicModal.fromTemplateUrl('pizza-modal.html',{
+.controller('PizzaListController', function($scope, $ionicModal, Pizza, settingsService){
+    $scope.settings = settingsService.loadSettings();
+
+    $ionicModal.fromTemplateUrl('/views/pizza_details.html',{
         scope: $scope,
         animation: 'slide-in-up'
     }).then(function(modal){
         $scope.pizzaModal = modal;   
+    });
+
+    $ionicModal.fromTemplateUrl('/views/settings.html',{
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal){
+        $scope.settingsModal = modal;   
     });
 
     $scope.pizzas = [
@@ -29,4 +38,7 @@ angular.module('pizza_comparer.controllers.pizza', [])
         $scope.pizzas.splice(index,1); 
     };
 
+    $scope.openSettings = function(){
+        $scope.settingsModal.show();
+    }
 });

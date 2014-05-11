@@ -13,5 +13,5 @@ angular.module('pizza_comparer.factories.pizza', [])
         this.pricePerSize = function(){
             return Math.round(this.price / this.size() * 10000)/10000;
         };
-    }
+    };
 });

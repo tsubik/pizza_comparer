@@ -15,7 +15,7 @@
         <ion-content>
             <div class="list" ng-cloak>
                 <a class="item item-icon-right item-button-right" href="#" ng-click="editPizza(pizza)" ng-repeat="pizza in pizzas">
-                    {{pizza.name}} ({{pizza.diameter}}cm {{pizza.price}}zł)
+                    {{pizza.name}} ({{pizza.diameter}}cm za {{pizza.price}}zł)
                     <div class="buttons">
                         <button class="button button-light">
                           {{pizza.pricePerSize()}} zł/cm2
@@ -30,46 +30,6 @@
               Dodaj nową pizzę
             </button>
         </ion-content>
-
-        <script id="pizza-modal.html" type="text/ng-template">
-            <div class="modal" ng-controller="PizzaDetailsController">
-            <ion-header-bar>
-                <h1 class="title">
-                    <p ng-if="!pizza.id">Dodawanie pizzy</p>
-                    <p ng-if="pizza.id">Modyfikacja pizzy</p>
-                </h1>
-                <button class="button button-clear button-positive" ng-click="closeModal()">Close</button>
-            </ion-header-bar>
-            <ion-content>
-                <form name="pizza_form" on-valid-submit="savePizza(pizza)" novalidate>
-                    <div class="list">
-                      <label class="item item-input validated">
-                        <span class="input-label">Nazwa</span>
-                        <input type="text" ng-model="pizza.name" required ng-maxlength=100>
-                        <i class="icon ion-alert-circled error"></i>
-                      </label>
-                      <label class="item item-input validated">
-                        <span class="input-label">Średnica</span>
-                        <input type="number" ng-model="pizza.diameter">
-                        <i class="icon ion-alert-circled error"></i>
-                      </label>
-                      <label class="item item-input validated">
-                        <span class="input-label">Cena</span>
-                        <input type="number" ng-model="pizza.price">
-                        <i class="icon ion-alert-circled error"></i>
-                      </label>
-                    </div>
-                    <button class="button button-block button-positive" type="submit" ng-if="!pizza.id">
-                      Dodaj pizzę
-                    </button>
-                    <button class="button button-block button-positive" type="submit" ng-if="pizza.id">
-                      Aktualizuj pizzę
-                    </button>
-                    
-                </form>
-            </ion-content>
-        </div>    
-        </script>
         <script src="lib/ionic/js/ionic.bundle.js"></script>
         <script src="js/app.js"></script>
         <script src="cordova.js"></script>
