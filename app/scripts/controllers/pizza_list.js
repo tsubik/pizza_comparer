@@ -1,21 +1,13 @@
-angular.module('pizza_comparer.controllers.pizza', ['pizza_comparer.factories.settings', 'pizza_comparer.factories.pizza'])
+angular.module('pizza_comparer.controllers.pizza', [])
 
-.controller('PizzaListController', function($scope, $ionicModal, Pizza, settingsService){
-    settingsService.settings = settingsService.loadSettings();
-    $scope.settings = settingsService.settings;
+.controller('PizzaListController', function($scope, $ionicModal, Pizza, Settings){
+    $scope.settings = Settings.get();
 
     $ionicModal.fromTemplateUrl('/views/pizza_details.html',{
         scope: $scope,
         animation: 'slide-in-up'
     }).then(function(modal){
         $scope.pizzaModal = modal;   
-    });
-
-    $ionicModal.fromTemplateUrl('/views/settings.html',{
-        scope: $scope,
-        animation: 'slide-in-up'
-    }).then(function(modal){
-        $scope.settingsModal = modal;   
     });
 
     $scope.pizzas = [
@@ -40,6 +32,17 @@ angular.module('pizza_comparer.controllers.pizza', ['pizza_comparer.factories.se
     };
 
     $scope.openSettings = function(){
-        $scope.settingsModal.show();
+        if(!$scope.settingsModal){
+            $ionicModal.fromTemplateUrl('/views/settings.html',{
+                scope: $scope,
+                animation: 'slide-in-up'
+            }).then(function(modal){
+                $scope.settingsModal = modal;   
+                $scope.settingsModal.show();        
+            });        
+        }
+        else{
+            $scope.settingsModal.show();
+        }
     }
 });

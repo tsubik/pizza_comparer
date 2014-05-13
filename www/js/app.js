@@ -266,25 +266,38 @@ angular.module('pizza_comparer.factories.pizza', [])
         };
     };
 });
-angular.module('pizza_comparer.factories.settings', ['pizza_comparer.factories.units', 'pizza_comparer.factories.currencies'])
+angular.module('pizza_comparer.factories.settings', [])
 
-.service('settingsService', function(units, currencies){
-    this.settings = null;
-
-    this.saveSettings = function(settings){
-        window.localStorage['pizza_comparer_settings'] = angular.toJson(settings);
+.factory('Settings', function(units, currencies){
+    var _settings = {};
+    try
+    {
+       _settings = angular.fromJson(window.localStorage['pizza_comparer_settings']);
+    }
+    catch(e){
+    }
+    // var defaultSettings = {
+    //     currency: currencies.filter(function(x){ return x.code === "PLN"; })[0],
+    //     unit: units.filter(function(x){ return x.code === "cm";})[0]
+    // };
+    var defaultSettings = {
+        currencyCode: 'PLN',
+        unitCode: 'cm'
     };
-    this.loadSettings = function(){
-        var settingsString = window.localStorage['pizza_comparer_settings'];
-        if(settingsString){
-            return angular.fromJson(settingsString);
+
+    _settings = angular.extend({}, defaultSettings, _settings);
+
+    var obj = {
+        get: function(){
+            return _settings;
+        },
+        save: function(){
+            window.localStorage['pizza_comparer_settings'] = angular.toJson(_settings);
         }
-        return {
-            currency: currencies.filter(function(x){ return x.code === "PLN"; })[0],
-            unit: units.filter(function(x){ return x.code === "cm";})[0]
-        };
     };
-    
+
+    obj.save();
+    return obj;
 });
 angular.module("pizza_comparer.factories.units", [])
     .service("units", function () {
@@ -349,51 +362,6 @@ angular.module('pizza_comparer.directives', ['ionic'])
     }
   }])
 ;
-angular.module('pizza_comparer.controllers.pizza', ['pizza_comparer.factories.settings', 'pizza_comparer.factories.pizza'])
-
-.controller('PizzaListController', function($scope, $ionicModal, Pizza, settingsService){
-    settingsService.settings = settingsService.loadSettings();
-    $scope.settings = settingsService.settings;
-
-    $ionicModal.fromTemplateUrl('/views/pizza_details.html',{
-        scope: $scope,
-        animation: 'slide-in-up'
-    }).then(function(modal){
-        $scope.pizzaModal = modal;   
-    });
-
-    $ionicModal.fromTemplateUrl('/views/settings.html',{
-        scope: $scope,
-        animation: 'slide-in-up'
-    }).then(function(modal){
-        $scope.settingsModal = modal;   
-    });
-
-    $scope.pizzas = [
-        new Pizza({ name: 'mała pizza', diameter: 30, price: 16.50 }),
-        new Pizza({ name: 'średnia pizza', diameter: 42, price: 18.99 }),
-        new Pizza({ name: 'duża pizza', diameter: 50, price: 21.20 })  
-    ];
-
-    $scope.addNewPizza = function(){
-        $scope.pizza = {};
-        $scope.pizzaModal.show();
-    };
-
-    $scope.editPizza = function(pizza){
-        $scope.pizza = angular.copy(pizza);
-        $scope.pizzaModal.show();
-    };
-
-    $scope.removePizza = function(pizza){
-        var index = $scope.pizzas.indexOf(pizza);
-        $scope.pizzas.splice(index,1); 
-    };
-
-    $scope.openSettings = function(){
-        $scope.settingsModal.show();
-    }
-});
 angular.module('pizza_comparer.controllers.pizza_details', [])
 
 .controller('PizzaDetailsController', function($scope, $log, Pizza){
@@ -420,32 +388,73 @@ angular.module('pizza_comparer.controllers.pizza_details', [])
         $scope.pizzaModal.hide();
     };
 });
-angular.module('pizza_comparer.controllers.settings', ['pizza_comparer.factories.units','pizza_comparer.factories.currencies'])
+angular.module('pizza_comparer.controllers.pizza', [])
 
-.controller('SettingsController', function($scope, $log, settingsService, units, currencies){
+.controller('PizzaListController', function($scope, $ionicModal, Pizza, Settings){
+    $scope.settings = Settings.get();
+
+    $ionicModal.fromTemplateUrl('/views/pizza_details.html',{
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal){
+        $scope.pizzaModal = modal;   
+    });
+
+    $scope.pizzas = [
+        new Pizza({ name: 'mała pizza', diameter: 30, price: 16.50 }),
+        new Pizza({ name: 'średnia pizza', diameter: 42, price: 18.99 }),
+        new Pizza({ name: 'duża pizza', diameter: 50, price: 21.20 })  
+    ];
+
+    $scope.addNewPizza = function(){
+        $scope.pizza = {};
+        $scope.pizzaModal.show();
+    };
+
+    $scope.editPizza = function(pizza){
+        $scope.pizza = angular.copy(pizza);
+        $scope.pizzaModal.show();
+    };
+
+    $scope.removePizza = function(pizza){
+        var index = $scope.pizzas.indexOf(pizza);
+        $scope.pizzas.splice(index,1); 
+    };
+
+    $scope.openSettings = function(){
+        if(!$scope.settingsModal){
+            $ionicModal.fromTemplateUrl('/views/settings.html',{
+                scope: $scope,
+                animation: 'slide-in-up'
+            }).then(function(modal){
+                $scope.settingsModal = modal;   
+                $scope.settingsModal.show();        
+            });        
+        }
+        else{
+            $scope.settingsModal.show();
+        }
+    }
+});
+angular.module('pizza_comparer.controllers.settings', [])
+
+.controller('SettingsController', function($scope, $log, Settings, units, currencies){
     $scope.units = units;
     $scope.currencies = currencies;
 
-    $scope.currencyCode = settingsService.settings.currency.code;
-    $scope.unitCode = settingsService.settings.unit.code;
+    $scope.settings = Settings.get();
+
+    $log.log('settings: ',$scope.settings);
+        
 
     $scope.closeModal = function(){
         $scope.settingsModal.hide();
     };
 
-    $scope.$watch('currencyCode', function(v){
-        $log.log('watch currencyCode: '+v);
+    $scope.$watch('settings', function(v){
+        $log.log('watch settings: ',v);
         if(v){
-            var currency = currencies.filter(function(x) { return x.code === $scope.currencyCode; })[0];
-            settingsService.settings.currency = currency;
-            settingsService.saveSettings(settingsService.settings);           
-        }
-    });
-    $scope.$watch('unitCode', function(v){
-        if(v){
-            var unit = units.filter(function(x) { return x.code === $scope.unitCode; })[0];
-            settingsService.settings.unit.code = unit.code;
-            settingsService.saveSettings(settingsService.settings);           
+            Settings.save();                
         }
     });
      
@@ -460,4 +469,9 @@ angular.module('pizza_comparer', [
     'pizza_comparer.factories.units',
     'pizza_comparer.factories.currencies',
     'pizza_comparer.factories.settings', 
-]);
+])
+.run(function($rootScope, $templateCache) {
+   $rootScope.$on('$viewContentLoaded', function() {
+      $templateCache.removeAll();
+   });
+});

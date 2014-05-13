@@ -3,17 +3,17 @@
         <h1 class="title">
           Ustawienia    
         </h1>
-        <button class="button button-clear button-positive" ng-click="closeModal()">Close</button>
+        <button class="button button-clear button-positive" ng-click="closeModal()">Zamknij</button>
     </ion-header-bar>
     <ion-content>
       <div class="list">
         <label class="item item-input">
           <span class="input-label">Waluta</span>
-          <select ng-model="currencyCode" ng-options="currency.code as currency.name + ' (' + currency.code + ')' for currency in currencies" ></select>
+          <select ng-model="settings.currencyCode" ng-options="currency.code as currency.name + ' (' + currency.code + ')' for currency in currencies" ></select>
         </label>
         <label class="item item-input">
           <span class="input-label">Jednostka miary</span>
-          <select ng-model="unitCode" ng-options="unit.code as unit.name + ' (' + unit.code + ')' for unit in units" ></select>  
+          <select ng-model="settings.unitCode" ng-options="unit.code as unit.name + ' (' + unit.code + ')' for unit in units" ></select>  
         </label>
       </div>
     </ion-content>

@@ -8,4 +8,9 @@ angular.module('pizza_comparer', [
     'pizza_comparer.factories.units',
     'pizza_comparer.factories.currencies',
     'pizza_comparer.factories.settings', 
-]);
+])
+.run(function($rootScope, $templateCache) {
+   $rootScope.$on('$viewContentLoaded', function() {
+      $templateCache.removeAll();
+   });
+});

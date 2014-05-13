@@ -1,20 +1,33 @@
-angular.module('pizza_comparer.factories.settings', ['pizza_comparer.factories.units', 'pizza_comparer.factories.currencies'])
+angular.module('pizza_comparer.factories.settings', [])
 
-.service('settingsService', function(units, currencies){
-    this.settings = null;
-
-    this.saveSettings = function(settings){
-        window.localStorage['pizza_comparer_settings'] = angular.toJson(settings);
+.factory('Settings', function(units, currencies){
+    var _settings = {};
+    try
+    {
+       _settings = angular.fromJson(window.localStorage['pizza_comparer_settings']);
+    }
+    catch(e){
+    }
+    // var defaultSettings = {
+    //     currency: currencies.filter(function(x){ return x.code === "PLN"; })[0],
+    //     unit: units.filter(function(x){ return x.code === "cm";})[0]
+    // };
+    var defaultSettings = {
+        currencyCode: 'PLN',
+        unitCode: 'cm'
     };
-    this.loadSettings = function(){
-        var settingsString = window.localStorage['pizza_comparer_settings'];
-        if(settingsString){
-            return angular.fromJson(settingsString);
+
+    _settings = angular.extend({}, defaultSettings, _settings);
+
+    var obj = {
+        get: function(){
+            return _settings;
+        },
+        save: function(){
+            window.localStorage['pizza_comparer_settings'] = angular.toJson(_settings);
         }
-        return {
-            currency: currencies.filter(function(x){ return x.code === "PLN"; })[0],
-            unit: units.filter(function(x){ return x.code === "cm";})[0]
-        };
     };
-    
+
+    obj.save();
+    return obj;
 });
