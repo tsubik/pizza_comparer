@@ -12,7 +12,6 @@ angular.module('pizza_comparer.controllers.pizza_details', [])
             })
         }
         else{
-            $log.log('kupa');
             $scope.pizzas.push(new Pizza(pizza));
         }
         $scope.pizzaModal.hide();

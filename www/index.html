@@ -15,10 +15,10 @@
         <ion-content>
             <div class="list" ng-cloak>
                 <a class="item item-icon-right item-button-right" href="#" ng-click="editPizza(pizza)" ng-repeat="pizza in pizzas">
-                    {{pizza.name}} ({{pizza.diameter}}cm za {{pizza.price}}zł)
+                    {{pizza.name}} ({{pizza.diameter}}{{settings.unit.code}} za {{pizza.price}}{{settings.currency.short}})
                     <div class="buttons">
                         <button class="button button-light">
-                          {{pizza.pricePerSize()}} zł/cm2
+                          {{pizza.pricePerSize()}} {{settings.currency.short}}/{{settings.unit.code}}2
                         </button>
                         <button class="button button-assertive" ng-click="removePizza(pizza)">
                           <i class="icon ion-trash-b"></i>

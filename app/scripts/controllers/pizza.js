@@ -1,7 +1,8 @@
 angular.module('pizza_comparer.controllers.pizza', ['pizza_comparer.factories.settings', 'pizza_comparer.factories.pizza'])
 
 .controller('PizzaListController', function($scope, $ionicModal, Pizza, settingsService){
-    $scope.settings = settingsService.loadSettings();
+    settingsService.settings = settingsService.loadSettings();
+    $scope.settings = settingsService.settings;
 
     $ionicModal.fromTemplateUrl('/views/pizza_details.html',{
         scope: $scope,

@@ -1,6 +1,8 @@
-angular.module('pizza_comparer.factories.settings', [])
+angular.module('pizza_comparer.factories.settings', ['pizza_comparer.factories.units', 'pizza_comparer.factories.currencies'])
 
-.service('settingsService', function(){
+.service('settingsService', function(units, currencies){
+    this.settings = null;
+
     this.saveSettings = function(settings){
         window.localStorage['pizza_comparer_settings'] = angular.toJson(settings);
     };
@@ -10,8 +12,9 @@ angular.module('pizza_comparer.factories.settings', [])
             return angular.fromJson(settingsString);
         }
         return {
-            currencyCode: 'PLN',
-            unitCode: 'cm'
+            currency: currencies.filter(function(x){ return x.code === "PLN"; })[0],
+            unit: units.filter(function(x){ return x.code === "cm";})[0]
         };
-    }
+    };
+    
 });
