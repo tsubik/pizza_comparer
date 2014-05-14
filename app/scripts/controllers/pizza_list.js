@@ -1,8 +1,8 @@
 angular.module('pizza_comparer.controllers.pizza', [])
 
-.controller('PizzaListController', function($scope, $ionicModal, Pizza, Settings){
+.controller('PizzaListController', function($scope, $ionicModal, Pizza, Settings, currencies){
     $scope.settings = Settings.get();
-
+    
     $ionicModal.fromTemplateUrl('/views/pizza_details.html',{
         scope: $scope,
         animation: 'slide-in-up'

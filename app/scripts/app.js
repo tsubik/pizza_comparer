@@ -8,6 +8,9 @@ angular.module('pizza_comparer', [
     'pizza_comparer.factories.units',
     'pizza_comparer.factories.currencies',
     'pizza_comparer.factories.settings', 
+    'pizza_comparer.filters.currency',
+    'pizza_comparer.filters.unit',
+    'pizza_comparer.filters.pricePerSize'      
 ])
 .run(function($rootScope, $templateCache) {
    $rootScope.$on('$viewContentLoaded', function() {
