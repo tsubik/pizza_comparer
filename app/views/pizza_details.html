@@ -15,12 +15,12 @@
                 <i class="icon ion-alert-circled error"></i>
               </label>
               <label class="item item-input validated">
-                <span class="input-label">Średnica</span>
+                <span class="input-label">Średnica ({{settings.unit.code}})</span>
                 <input type="number" ng-model="pizza.diameter">
-                <i class="icon ion-alert-circled error"></i>
+                <i class="icon ion-alert-circled error"></i>                
               </label>
               <label class="item item-input validated">
-                <span class="input-label">Cena</span>
+                <span class="input-label">Cena ({{settings.currency.symbol}})</span>
                 <input type="number" ng-model="pizza.price">
                 <i class="icon ion-alert-circled error"></i>
               </label>

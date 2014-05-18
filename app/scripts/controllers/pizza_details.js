@@ -3,16 +3,13 @@ angular.module('pizza_comparer.controllers.pizza_details', [])
 .controller('PizzaDetailsController', function($scope, $log, Pizza){
     $scope.savePizza = function(pizza){
         if(pizza.id){
-            angular.forEach($scope.pizzas, function(p){
-                if(p.id === pizza.id){
-                    p.name = pizza.name;
-                    p.diameter = pizza.diameter;
-                    p.price = pizza.price;
-                }
-            })
+            var p = $scope.activeRestaurant.pizzas.filter(function(p) { return p.id === pizza.id });
+            p.name = pizza.name;
+            p.diameter = pizza.diameter;
+            p.price = pizza.price;
         }
         else{
-            $scope.pizzas.push(new Pizza(pizza));
+            $scope.activeRestaurant.pizzas.push(new Pizza(pizza));
         }
         $scope.pizzaModal.hide();
         pizza.name = "";

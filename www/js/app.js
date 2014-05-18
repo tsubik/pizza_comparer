@@ -237,16 +237,16 @@ UUIDjs.newTS = function() {
 angular.module("pizza_comparer.factories.currencies", [])
     .service("currencies", function () {
         return [
-            { code: "PLN", short:"zł", name: "złoty", precision: 2, step: "0.01" },
-            { code: "GBP", short:"", name: "funt szterling", precision: 2, step: "0.01" },
-            { code: "USD", short:"$", name: "dolar amerykański", precision: 2, step: "0.01" },
-            { code: "EUR", short:"", name: "euro", precision: 2, step: "0.01" },
-            { code: "CHF", short:"", name: "frank szwajcarski", precision: 2, step: "0.01" },
-            { code: "CZK", short:"", name: "korona czeska", precision: 2, step: "0.01" },
-            { code: "HRK", short:"", name: "kuna chorwacka", precision: 2, step: "0.01" },
-            { code: "RON", short:"", name: "lej rumuński", precision: 2, step: "0.01" },
-            { code: "BGN", short:"", name: "lew bułgarski", precision: 2, step: "0.01" },
-            { code: "RUB", short:"", name: "rubel rosyjski", precision: 2, step: "0.01" },
+            { code: "PLN", symbol:"zł", name: "złoty", precision: 2, step: "0.01" },
+            { code: "GBP", symbol:"£", name: "funt szterling", precision: 2, step: "0.01" },
+            { code: "USD", symbol:"$", name: "dolar amerykański", precision: 2, step: "0.01" },
+            { code: "EUR", symbol:"€", name: "euro", precision: 2, step: "0.01" },
+            { code: "CHF", symbol:"CHF", name: "frank szwajcarski", precision: 2, step: "0.01" },
+            { code: "CZK", symbol:"Kč", name: "korona czeska", precision: 2, step: "0.01" },
+            { code: "HRK", symbol:"kn", name: "kuna chorwacka", precision: 2, step: "0.01" },
+            { code: "RON", symbol:"RON", name: "lej rumuński", precision: 2, step: "0.01" },
+            { code: "BGN", symbol:"лв.", name: "lew bułgarski", precision: 2, step: "0.01" },
+            { code: "RUB", symbol:"руб.", name: "rubel rosyjski", precision: 2, step: "0.01" },
         ];
     });
 angular.module('pizza_comparer.factories.pizza', [])
@@ -322,7 +322,10 @@ angular.module('pizza_comparer.factories.settings', [])
     };
 
     _settingsCodes = angular.extend({}, defaultSettingsCodes, _settingsCodes);
-    _settings = {};
+    _settings = {
+        currency: {},
+        unit: {}
+    };
 
     var obj = {
         get: function(){
@@ -409,16 +412,13 @@ angular.module('pizza_comparer.controllers.pizza_details', [])
 .controller('PizzaDetailsController', function($scope, $log, Pizza){
     $scope.savePizza = function(pizza){
         if(pizza.id){
-            angular.forEach($scope.pizzas, function(p){
-                if(p.id === pizza.id){
-                    p.name = pizza.name;
-                    p.diameter = pizza.diameter;
-                    p.price = pizza.price;
-                }
-            })
+            var p = $scope.activeRestaurant.pizzas.filter(function(p) { return p.id === pizza.id });
+            p.name = pizza.name;
+            p.diameter = pizza.diameter;
+            p.price = pizza.price;
         }
         else{
-            $scope.pizzas.push(new Pizza(pizza));
+            $scope.activeRestaurant.pizzas.push(new Pizza(pizza));
         }
         $scope.pizzaModal.hide();
         pizza.name = "";
@@ -537,13 +537,13 @@ angular.module('pizza_comparer', [
 angular.module('pizza_comparer.filters.currency',[])
 .filter('currency', function(Settings){
     return function(input){
-        return input + " " + Settings.get().currency.short;     
+        return input + " " + Settings.get().currency.symbol;     
     };
 });
 angular.module('pizza_comparer.filters.pricePerSize', [])
 .filter('pricePerSize', function(Settings){
     return function(input){
-        return input + " " + Settings.get().currency.short + "/" + Settings.get().unit.code +"2" ;     
+        return input + " " + Settings.get().currency.symbol + "/" + Settings.get().unit.code +"2" ;     
     };
 });
 angular.module('pizza_comparer.filters.unit', [])

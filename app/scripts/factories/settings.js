@@ -14,7 +14,10 @@ angular.module('pizza_comparer.factories.settings', [])
     };
 
     _settingsCodes = angular.extend({}, defaultSettingsCodes, _settingsCodes);
-    _settings = {};
+    _settings = {
+        currency: {},
+        unit: {}
+    };
 
     var obj = {
         get: function(){
