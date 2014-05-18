@@ -18,7 +18,7 @@
                 </ion-header-bar>
                 <ion-content>
                     <div class="list" ng-cloak>
-                        <a class="item item-avatar item-icon-right item-button-right" href="#" ng-click="editPizza(pizza)" ng-repeat="pizza in activeRestaurant.pizzas">
+                        <a class="item item-icon-right item-button-right" href="#" ng-click="editPizza(pizza)" ng-repeat="pizza in activeRestaurant.pizzas">
                             <h2>{{pizza.name}}</h2> 
                             <p>({{pizza.diameter | number:0 | unit }} za {{ pizza.price | number:2 | currency }})</p>
                             <div class="buttons">

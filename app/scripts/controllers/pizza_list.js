@@ -3,7 +3,7 @@ angular.module('pizza_comparer.controllers.pizza', [])
 .controller('PizzaListController', function($scope, $ionicModal,$ionicSideMenuDelegate, Pizza, Restaurants, Settings, currencies){
     $scope.settings = Settings.get();
     
-    $ionicModal.fromTemplateUrl('/views/pizza_details.html',{
+    $ionicModal.fromTemplateUrl('views/pizza_details.html',{
         scope: $scope,
         animation: 'slide-in-up'
     }).then(function(modal){
@@ -50,7 +50,7 @@ angular.module('pizza_comparer.controllers.pizza', [])
 
     $scope.openSettings = function(){
         if(!$scope.settingsModal){
-            $ionicModal.fromTemplateUrl('/views/settings.html',{
+            $ionicModal.fromTemplateUrl('views/settings.html',{
                 scope: $scope,
                 animation: 'slide-in-up'
             }).then(function(modal){
