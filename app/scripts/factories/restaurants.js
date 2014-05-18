@@ -13,7 +13,12 @@ angular.module('pizza_comparer.factories.restaurants',[])
         all: function(){
             var _restaurants = [];
             try{
-                _restaurants = angular.fromJson(window.localStorage['pizza_comparer_restaurants']);   
+                _restaurants = angular.fromJson(window.localStorage['pizza_comparer_restaurants']);
+                angular.forEach(_restaurants, function(restaurant){
+                    restaurant.pizzas = restaurant.pizzas.map(function(r){
+                        return new Pizza(r);
+                    })
+                });
             }catch(e){
             }; 
             var defaultRestaurant = { 

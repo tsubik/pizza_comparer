@@ -234,6 +234,26 @@ UUIDjs.new = function() {
 UUIDjs.newTS = function() {
   return this.create(1);
 };
+angular.module('pizza_comparer', [
+    'ionic',
+    'pizza_comparer.controllers.settings',
+    'pizza_comparer.controllers.pizza',
+    'pizza_comparer.controllers.pizza_details',
+    'pizza_comparer.directives',
+    'pizza_comparer.factories.pizza',
+    'pizza_comparer.factories.units',
+    'pizza_comparer.factories.restaurants',
+    'pizza_comparer.factories.currencies',
+    'pizza_comparer.factories.settings', 
+    'pizza_comparer.filters.currency',
+    'pizza_comparer.filters.unit',
+    'pizza_comparer.filters.pricePerSize'      
+])
+.run(function($rootScope, $templateCache) {
+   $rootScope.$on('$viewContentLoaded', function() {
+      $templateCache.removeAll();
+   });
+});
 angular.module("pizza_comparer.factories.currencies", [])
     .service("currencies", function () {
         return [
@@ -281,7 +301,12 @@ angular.module('pizza_comparer.factories.restaurants',[])
         all: function(){
             var _restaurants = [];
             try{
-                _restaurants = angular.fromJson(window.localStorage['pizza_comparer_restaurants']);   
+                _restaurants = angular.fromJson(window.localStorage['pizza_comparer_restaurants']);
+                angular.forEach(_restaurants, function(restaurant){
+                    restaurant.pizzas = restaurant.pizzas.map(function(r){
+                        return new Pizza(r);
+                    })
+                });
             }catch(e){
             }; 
             var defaultRestaurant = { 
@@ -513,26 +538,6 @@ angular.module('pizza_comparer.controllers.settings', [])
         }
     }, true);
      
-});
-angular.module('pizza_comparer', [
-    'ionic',
-    'pizza_comparer.controllers.settings',
-    'pizza_comparer.controllers.pizza',
-    'pizza_comparer.controllers.pizza_details',
-    'pizza_comparer.directives',
-    'pizza_comparer.factories.pizza',
-    'pizza_comparer.factories.units',
-    'pizza_comparer.factories.restaurants',
-    'pizza_comparer.factories.currencies',
-    'pizza_comparer.factories.settings', 
-    'pizza_comparer.filters.currency',
-    'pizza_comparer.filters.unit',
-    'pizza_comparer.filters.pricePerSize'      
-])
-.run(function($rootScope, $templateCache) {
-   $rootScope.$on('$viewContentLoaded', function() {
-      $templateCache.removeAll();
-   });
 });
 angular.module('pizza_comparer.filters.currency',[])
 .filter('currency', function(Settings){

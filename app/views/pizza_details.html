@@ -7,21 +7,21 @@
         <button class="button button-clear button-positive" ng-click="closeModal()">Close</button>
     </ion-header-bar>
     <ion-content>
-        <form name="pizza_form" on-valid-submit="savePizza(pizza)" novalidate>
+        <form name="pizza_form" on-valid-submit="savePizza(pizza)" novalidate="novalidate">
             <div class="list">
               <label class="item item-input validated">
                 <span class="input-label">Nazwa</span>
-                <input type="text" ng-model="pizza.name" required ng-maxlength=100>
+                <input type="text" ng-model="pizza.name" name="name" required ng-maxlength=100>
                 <i class="icon ion-alert-circled error"></i>
               </label>
               <label class="item item-input validated">
                 <span class="input-label">Średnica ({{settings.unit.code}})</span>
-                <input type="number" ng-model="pizza.diameter">
+                <input type="number" ng-model="pizza.diameter" name="diameter" required>
                 <i class="icon ion-alert-circled error"></i>                
               </label>
               <label class="item item-input validated">
                 <span class="input-label">Cena ({{settings.currency.symbol}})</span>
-                <input type="number" ng-model="pizza.price">
+                <input type="number" ng-model="pizza.price" name="price" required>
                 <i class="icon ion-alert-circled error"></i>
               </label>
             </div>
