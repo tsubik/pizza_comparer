@@ -6,6 +6,7 @@ angular.module('pizza_comparer', [
     'pizza_comparer.directives',
     'pizza_comparer.factories.pizza',
     'pizza_comparer.factories.units',
+    'pizza_comparer.factories.restaurants',
     'pizza_comparer.factories.currencies',
     'pizza_comparer.factories.settings', 
     'pizza_comparer.filters.currency',

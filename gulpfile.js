@@ -28,10 +28,10 @@ gulp.task('scripts', function(){
     .pipe(order([
       'utility/*.js',
       'vendor/*.js',
+      'app.js',
       'factories/*.js',
       'directives/*.js',
-      'controllers/*.js',
-      'app.js'
+      'controllers/*.js'
       ]))
     .pipe(concat('app.js'))
     .pipe(gulp.dest('./www/js/'));

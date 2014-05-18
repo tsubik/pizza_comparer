@@ -8,10 +8,6 @@ angular.module('pizza_comparer.factories.settings', [])
     }
     catch(e){
     }
-    // var defaultSettings = {
-    //     currency: currencies.filter(function(x){ return x.code === "PLN"; })[0],
-    //     unit: units.filter(function(x){ return x.code === "cm";})[0]
-    // };
     var defaultSettingsCodes = {
         currencyCode: 'PLN',
         unitCode: 'cm'
